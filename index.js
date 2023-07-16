@@ -45,12 +45,12 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 app.post('/auth/register', upload.single('picturePath'), register);
-app.post('posts',verifyToken, upload.single('picturePath'), createPost);
+app.post('/posts',verifyToken, upload.single('picturePath'), createPost);
 
 //routes
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
-app.use('posts', postRoutes);
+app.use('/posts', postRoutes);
 //mongodb connection
 const PORT = process.env.PORT || 5001;
 const CONNECTION_URL = process.env.MONGO_URL;

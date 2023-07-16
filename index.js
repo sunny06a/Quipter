@@ -9,7 +9,11 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/user.js';
+import postRoutes from './routes/posts.js';
 import { register } from './controllers/auth.js';
+import { createPost } from './controllers/posts.js';
+import { verifyToken } from './middleware/auth.js';
 // configuration (middleware)
 
 const __filename = fileURLToPath(import.meta.url); //file name //*only when use type module in package.json*//
@@ -41,11 +45,12 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 app.post('/auth/register', upload.single('picturePath'), register);
-
+app.post('posts',verifyToken, upload.single('picturePath'), createPost);
 
 //routes
 app.use('/auth', authRoutes);
-
+app.use('/user', userRoutes);
+app.use('posts', postRoutes);
 //mongodb connection
 const PORT = process.env.PORT || 5001;
 const CONNECTION_URL = process.env.MONGO_URL;

@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-
+//Read
 export const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -12,24 +12,26 @@ export const getUser = async (req, res) => {
 
 export const getUserFriends = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        const friends = await Promise.all(
-            user.friends.map(friendId => {
-                return User.findById(friendId);
+        const {id} = req.params;
+        const user = await User.findById(id);
+        const friends = await Promise.all(   // Promise.all() takes an array of promises and returns a single promise
+            user.friends.map(id => {
+             User.findById(id);
             })
         );
-        let friendList = [];
-        friends.map(friend => {
-            const {_id, firstName,lastName, occupation,location, picturePath} = friend;
-            friendList.push({_id,firstName,lastName,occupation,location, picturePath});
-        });
-        res.status(200).json(friendList);
+        const formattedFriends = friends.map(
+            ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+              return { _id, firstName, lastName, occupation, location, picturePath };
+            }
+          );
+      
+        res.status(200).json(formattedFriends);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
 }
 
-export const addRemoveFriends = async (req, res) => {
+export const addRemoveFriend = async (req, res) => {
     try{
         const {id, friendId} = req.params;
         const user= await User.findById(id);
@@ -37,7 +39,7 @@ export const addRemoveFriends = async (req, res) => {
 
         if(user.friends.includes(friendId)) {
             user.friends=user.friends.filter(id => id !== friendId);
-            friend.friends=friend.friends.filter(id => id !== id);
+            friend.friends=friend.friends.filter((id )=> id !== id);
         }
         else {
             user.friends.push(friendId);
@@ -46,18 +48,18 @@ export const addRemoveFriends = async (req, res) => {
         await user.save();
         await friend.save();
         const friends = await Promise.all(
-            user.friends.map(friendId => {
-                return User.findById(friendId);
+            user.friends.map((id) => {
+                 User.findById(id);
             })
         );
      
-        let friendList = [];
-        friends.map(friend => {
-            const {_id, firstName,lastName, occupation,location, picturePath} = friend;
-            friendList.push({_id,firstName,lastName,occupation,location, picturePath});
-        });
-        res.status(200).json(friendList);
-
+        const formattedFriends = friends.map(
+            ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+              return { _id, firstName, lastName, occupation, location, picturePath };
+            }
+          );
+          res.status(200).json(formattedFriends);
+          
     } catch (error) {
         res.status(500).json({message: error.message});
     }

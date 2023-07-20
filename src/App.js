@@ -4,18 +4,18 @@ import {Navigate,Routes,Route,BrowserRouter } from 'react-router-dom'
 import HomePage from './scenes/homePage';
 import LoginPage from './scenes/loginPage';
 import ProfilePage from './scenes/profilePage';
-import {useMemo} from 'react'
+import {useMemo} from 'react' //useMemo is used to prevent re-rendering of the component
 import { useSelector } from 'react-redux';
-import { CssBaseline, ThemeProvider} from '@mui/material';
-import { createTheme } from '@mui/material/styles';
-import { themeSettings } from './theme';
+import { CssBaseline, ThemeProvider} from '@mui/material'; //CssBaseline is used to reset the css of the page and ThemeProvider is used to provide the theme to the app
+import { createTheme } from '@mui/material/styles'; //createTheme is used to create the theme
+import { themeSettings } from './theme'; //themeSettings is used to get the theme settings from the theme.js file
 
 function App() {
-  const mode=useSelector((state)=> state.mode);
-  const theme=useMemo(()=> createTheme(themeSettings(mode)),[mode]);
-  const isAuth=Boolean(useSelector((state)=>state.token))
+  const mode=useSelector((state)=> state.mode);  //useSelector is used to get the state from the redux store
+  const theme=useMemo(()=> createTheme(themeSettings(mode)),[mode]); 
+  const isAuth=Boolean(useSelector((state)=>state.token)) //isAuth is used to check if the user is authenticated or not
   return (
-  <>
+  <div className='app'>
   <BrowserRouter>
   <ThemeProvider theme={theme}>
   <CssBaseline/>
@@ -26,9 +26,7 @@ function App() {
   </Routes>
   </ThemeProvider>
   </BrowserRouter>
-
-
-  </>
+  </div>
     );
 }
 

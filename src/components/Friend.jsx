@@ -1,10 +1,10 @@
-import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material"; 
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; // useSelector is used to access the state and useDispatch is used to dispatch an action
 import { useNavigate } from "react-router-dom";
-import { setFriends } from "state";
-import FlexBetween from "./FlexBetween";
-import UserImage from "./UserImage";
+import { setFriends } from "state"; // setFriends is an action creator
+import FlexBetween from "./FlexBetween"; 
+import UserImage from "./UserImage"; 
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
+  // PATCH request to add or remove a friend
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:5000/users/${_id}/${friendId}`,
@@ -32,14 +33,16 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         },
       }
     );
+    // If the friend was added, the response will be the updated user object
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
   };
 
   return (
+   //to display the friend's name, subtitle, and profile picture
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage image={userPicturePath} size="55px" />
+        <UserImage image={userPicturePath} size="55px" /> 
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);
@@ -50,7 +53,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
             color={main}
             variant="h5"
             fontWeight="500"
-            sx={{
+            sx={{ // sx is used to style the Typography component
               "&:hover": {
                 color: palette.primary.light,
                 cursor: "pointer",
@@ -64,10 +67,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
+      {/* //to add or remove a friend */}
       <IconButton
         onClick={() => patchFriend()}
         sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
       >
+        {/* //if the friend is already a friend, the icon will be PersonRemoveOutlined, otherwise it will be PersonAddOutlined */}
         {isFriend ? (
           <PersonRemoveOutlined sx={{ color: primaryDark }} />
         ) : (

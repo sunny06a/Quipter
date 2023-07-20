@@ -8,14 +8,15 @@ import {
   useTheme,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { Formik } from "formik"; // Formik is used to create forms
+import * as yup from "yup"; // yup is used for form validation
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
-import Dropzone from "react-dropzone";
+import Dropzone from "react-dropzone"; // Dropzone is used to upload files
 import FlexBetween from "components/FlexBetween";
 
+//validation schema for the register form
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
@@ -72,7 +73,7 @@ const Form = () => {
     );
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
-
+    // if user is saved, we can login
     if (savedUser) {
       setPageType("login");
     }
@@ -86,6 +87,7 @@ const Form = () => {
     });
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
+    // if user is logged in, we can set the user in state
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -108,6 +110,7 @@ const Form = () => {
       initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
       validationSchema={isLogin ? loginSchema : registerSchema}
     >
+      {/* // Formik provides us with a bunch of props that we can use to create our form */}
       {({
         values,
         errors,
@@ -127,6 +130,7 @@ const Form = () => {
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
+            {/* // if we are registering, we need to collect more info */}
             {isRegister && (
               <>
                 <TextField
@@ -135,9 +139,11 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.firstName}
                   name="firstName"
+                  // if the field has been touched and there is an error, show the error else show nothing
                   error={
                     Boolean(touched.firstName) && Boolean(errors.firstName)
                   }
+                  //helperText is the error message
                   helperText={touched.firstName && errors.firstName}
                   sx={{ gridColumn: "span 2" }}
                 />
@@ -186,6 +192,7 @@ const Form = () => {
                       setFieldValue("picture", acceptedFiles[0])
                     }
                   >
+                    
                     {({ getRootProps, getInputProps }) => (
                       <Box
                         {...getRootProps()}
@@ -247,6 +254,7 @@ const Form = () => {
             >
               {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
+            {/* // if we are registering, we need to provide a way to go back to the login page */}
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
@@ -261,6 +269,7 @@ const Form = () => {
                 },
               }}
             >
+              
               {isLogin
                 ? "Don't have an account? Sign Up here."
                 : "Already have an account? Login here."}

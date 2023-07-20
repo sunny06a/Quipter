@@ -1,6 +1,7 @@
-import styled from "@emotion/styled";
 import { Box } from "@mui/material";
+import {styled} from "@mui/system";
 
+// FlexBetween is a flexbox with space between items
 const FlexBetween =styled(Box)({
     display:"flex",
     justifyContent:"space-between",

@@ -1,5 +1,4 @@
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React from 'react'
 import Form from './Form'
 export default function LoginPage() {
   const theme = useTheme();

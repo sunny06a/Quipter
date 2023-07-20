@@ -8,6 +8,7 @@ import AdvertWidget from "scenes/widgets/AdvertWidget";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
 
 const HomePage = () => {
+  //isNonMobileScreens is true if the screen width is greater than 1000px
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
 
@@ -17,7 +18,7 @@ const HomePage = () => {
       <Box
         width="100%"
         padding="2rem 6%"
-        display={isNonMobileScreens ? "flex" : "block"}
+        display={isNonMobileScreens ? "flex" : "block"} //if the screen width is greater than 1000px, display the widgets in a row, otherwise display them in a column
         gap="0.5rem"
         justifyContent="space-between"
       >

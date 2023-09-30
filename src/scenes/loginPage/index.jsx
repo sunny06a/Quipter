@@ -12,7 +12,7 @@ export default function LoginPage() {
         textAlign="center"
       >
         <Typography fontWeight="bold" fontSize="32px" color="primary">
-          SocialMedia
+          Quipter
         </Typography>
       </Box>
 
@@ -24,7 +24,7 @@ export default function LoginPage() {
         backgroundColor={theme.palette.background.alt}
       >
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-          Welcome to SocialMedia, the Social Media App !
+          Welcome to Quipter, the Social Media App !
         </Typography>
         <Form></Form>
       </Box>
